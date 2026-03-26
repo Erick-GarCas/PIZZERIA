@@ -43,7 +43,7 @@ export function BarsChart({ data, formatter }) {
                   width: `${percentage}%`,
                   background: `linear-gradient(-90deg, 
                     ${CHART_COLORS[index % CHART_COLORS.length]} 0%, 
-                    rgba(11, 4, 51, 0) 100%), 
+                    rgba(11, 4, 51, 0.34) 100%), 
                     ${CHART_COLORS[index % CHART_COLORS.length]}`, // Color base sólido debajo
                 }}
               />

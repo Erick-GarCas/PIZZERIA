@@ -390,14 +390,6 @@ a {
   backdrop-filter: blur(10px);
 }
 
-.card {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  padding: 1.35rem;
-  box-shadow: var(--shadow-sm);
-  
-}
 
 .content-head {
   display: flex;
@@ -554,8 +546,8 @@ a {
   border-radius: var(--radius-xl);
   border: 1px solid rgba(255, 255, 255, 0.08);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent),
-    linear-gradient(145deg, #162138 0%, #10172a 100%);
+  linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent),
+  linear-gradient(145deg, #162138 0%, #10172a 100%);
   color: #eef3ff;
   box-shadow: 0 26px 40px rgba(16, 23, 42, 0.34);
 }
@@ -831,14 +823,14 @@ a {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(252, 249, 244, 0.94)),
     var(--surface-strong);
-  border: 1px solid rgba(30, 39, 56, 0.08);
-  border-radius: 22px;
-  padding: 1.15rem;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
-}
-
-.product-card:hover {
+    border: 1px solid rgba(30, 39, 56, 0.08);
+    border-radius: 22px;
+    padding: 1.15rem;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  
+  .product-card:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-md);
 }
@@ -1508,9 +1500,71 @@ a {
 
 .admin-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  /* Forzamos 3 columnas exactas cuando hay espacio suficiente */
+  grid-template-columns: repeat(3, 1fr); 
   gap: 1rem;
 }
+.card, .card-monitoreo, .card-inventario, .card-auditoria, .card-reciente {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 1.35rem;
+  box-shadow: var(--shadow-sm);
+  
+}
+
+.card .simple-table {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem; /* Espacio entre renglones */
+}
+.p-monitoreo {
+  display: grid;
+  /* Tres columnas: Etiqueta (API), Estado (Operativa), Meta (Fecha/Info) */
+  grid-template-columns: 140px 1fr auto; 
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  width: 100%; /* Asegura que llene la tarjeta */
+}
+
+.card-inventario{
+  grid-column: span 1;
+}
+.card-reciente{
+  grid-column: span 2;
+}
+.card-captura {
+  grid-column: span 1;
+}
+.card-tendencia {
+  grid-column: span 2;
+}
+.card-seguimiento {
+  grid-column: span 3;
+}
+.card-captura, .card-tendencia, .card-seguimiento {
+  background:
+  linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(252, 249, 244, 0.94)),
+  var(--surface-strong);
+  border: 1px solid rgba(30, 39, 56, 0.08);
+  border-radius: 22px;
+  padding: 1.15rem;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+@media (max-width: 1024px) {
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+  .card-captura, .card-tendencia, .card-seguimiento {
+    grid-column: span 1;
+  }
+}
+
 
 .period-filters {
   display: flex;
@@ -1524,20 +1578,54 @@ a {
   text-align: center;
 }
 
+.min-stock{
+  font-weight: 600; /* Un poco más de grosor para que destaque */
+  font-size: 0.85rem;
+  background-color: #fee2e2; /* Un fondo rojo muy tenue (opcional) */
+  padding: 2px 30px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
 .simple-table {
   display: grid;
   gap: 0.65rem;
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 0.75rem 1.5rem; /* Espaciado entre filas y columnas */
+  padding: 1rem 0;
 }
 
 .simple-table > div {
   display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr);
-  gap: 0.65rem;
+  /* Col 1: Nombre (ocupa lo que necesite, pero alineado a la izq)
+     Col 2: Stock (Centro - fija para que no se mueva)
+     Col 3: Mínimo (Derecha)
+  */
+  grid-template-columns: 1fr 1fr 0.8fr; 
   align-items: center;
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  padding: 0.9rem;
+  padding: 0.8rem 1rem;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+}
+
+/* Alineaciones específicas */
+.simple-table > div strong {
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Si el nombre es muy largo, pone "..." */
+}
+
+.simple-table > div span:first-of-type {
+  text-align: center; /* ALINEACIÓN CENTRAL DE PORCIONES */
+  font-weight: 500;
+}
+
+.simple-table > div span:last-of-type {
+  text-align: right; /* MINIMOS A LA DERECHA */
+  color: #666;
+  font-size: 0.9em;
 }
 
 .simple-table .alert-row,
@@ -1903,10 +1991,21 @@ a {
   margin-top: 0.2rem;
 }
 
+.catalog-fields input,
+.catalog-fields select {
+  width: 100%;
+  box-sizing: border-box; /* Crucial para que el padding no los ensanche */
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
 .catalog-fields {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.75rem;
+  gap: 1rem;
+  align-items: end;
 }
 
 .catalog-fields--compact {
@@ -1922,7 +2021,22 @@ a {
 }
 
 .catalog-check {
-  align-self: end;
+  align-self: center;
+}
+
+.card-auditoria{
+  grid-column: 1 / -1;
+  background: #fffefb;
+  border: 1px solid #eee;
+  border-radius: 25px;
+  padding: 25px;
+}
+
+.action-history {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 1rem;
+  padding: 1.5rem 0;
 }
 
 .kpi-card small {

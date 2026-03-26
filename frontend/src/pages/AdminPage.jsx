@@ -581,7 +581,7 @@ function AdminPage() {
                 </article>
               </section>
 
-              <section className="admin-grid">
+              <section className="dashboard-charts-grid">
                 <article className="card">
                   <div className="content-head">
                     <div>
@@ -643,7 +643,7 @@ function AdminPage() {
                   )}
                 </article>
 
-                <article className="card">
+                <article className="card-reciente">
                   <div className="content-head">
                     <div>
                       <p className="section-kicker">Actividad reciente</p>
@@ -687,7 +687,7 @@ function AdminPage() {
               </section>
 
               <section className="admin-grid">
-                <article className="card">
+                <article className="card-captura">
                   <div className="content-head">
                     <div>
                       <p className="section-kicker">Captura</p>
@@ -722,7 +722,7 @@ function AdminPage() {
                   </form>
                 </article>
 
-                <article className="card">
+                <article className="card-tendencia">
                   <div className="content-head">
                     <div>
                       <p className="section-kicker">Tendencia</p>
@@ -740,7 +740,7 @@ function AdminPage() {
                   )}
                 </article>
 
-                <article className="card">
+                <article className="card-seguimiento">
                   <div className="content-head">
                     <div>
                       <p className="section-kicker">Seguimiento</p>
@@ -757,7 +757,7 @@ function AdminPage() {
                         <span>
                           {ing.stock_actual} {ing.unidad}
                         </span>
-                        <span>Min: {ing.stock_minimo}</span>
+                        <span className="min-stock">Min: {ing.stock_minimo}</span>
                       </div>
                     ))}
                   </div>
@@ -1069,7 +1069,7 @@ function AdminPage() {
 
           {activeModule === 'auditoria' && (
             <section className="admin-grid">
-              <article className="card">
+              <article className="card-auditoria">
                 <div className="content-head">
                   <div>
                     <p className="section-kicker">Auditoria</p>
