@@ -593,17 +593,17 @@ function AdminPage() {
                     <span className="section-badge">{health?.database?.ok ? 'Operativo' : 'Revisar'}</span>
                   </div>
                   <div className="simple-table">
-                    <div>
+                    <div className='p-monitoreo'>
                       <strong>API</strong>
                       <span>{health?.ok ? 'Operativa' : 'Con problemas'}</span>
                       <span>{health?.timestamp ? new Date(health.timestamp).toLocaleString('es-MX') : '-'}</span>
                     </div>
-                    <div>
+                    <div className='p-monitoreo'>
                       <strong>Base de datos</strong>
                       <span>{health?.database?.ok ? 'Conectada' : 'Sin conexion'}</span>
                       <span>{health?.database?.error || '-'}</span>
                     </div>
-                    <div>
+                    <div className='p-monitoreo'>
                       <strong>Acciones activas</strong>
                       <span>{accionesActivas}</span>
                       <span>Con trazabilidad</span>

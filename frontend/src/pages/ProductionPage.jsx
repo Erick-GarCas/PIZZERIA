@@ -13,6 +13,10 @@ function ProductionPage() {
   const [lastUpdated, setLastUpdated] = useState('');
   const [busyKey, setBusyKey] = useState('');
   const [error, setError] = useState('');
+  const [mesasLiberadas, setMesasLiberadas] = useState(() => {
+  const saved = localStorage.getItem('mesas_liberadas');
+  return saved ? JSON.parse(saved) : [];
+});
 
   const load = useCallback(async () => {
     try {
@@ -65,16 +69,26 @@ function ProductionPage() {
   };
 
   const liberarMesa = async (mesaId) => {
-    try {
-      setBusyKey(`mesa-${mesaId}`);
-      await client.post(`/mesas/${mesaId}/liberar/`, {});
-      await load();
-    } catch {
-      setError('No se pudo liberar la mesa.');
-    } finally {
-      setBusyKey('');
-    }
-  };
+  try {
+    setBusyKey(`mesa-${mesaId}`);
+    await client.post(`/mesas/${mesaId}/liberar/`, {});
+    
+    // 1. Creamos la nueva lista
+    const nuevaLista = [...mesasLiberadas, String(mesaId)];
+    
+    // 2. Actualizamos el estado
+    setMesasLiberadas(nuevaLista);
+    
+    // 3. La guardamos permanentemente en el navegador
+    localStorage.setItem('mesas_liberadas', JSON.stringify(nuevaLista));
+    
+    await load();
+  } catch {
+    setError('No se pudo liberar la mesa.');
+  } finally {
+    setBusyKey('');
+  }
+};
 
   const pedidosPendientes = useMemo(
     () => data.pedidos.filter((pedido) => pedido.estado === 'pendiente'),
@@ -178,7 +192,9 @@ function ProductionPage() {
               {pedido.estado === 'listo' && (
                 <div className="ready-actions">
                   <span className="ready-text">Listo para entregar</span>
-                  {pedido.mesa && (
+
+                  {/* Usamos String() en ambos lados para estar 100% seguros */}
+                  {pedido.mesa && !mesasLiberadas.includes(String(pedido.mesa)) ? (
                     <button
                       type="button"
                       className="action-btn action-dark"
@@ -187,6 +203,13 @@ function ProductionPage() {
                     >
                       Liberar mesa
                     </button>
+                  ) : (
+                    /* Si ya está en la lista, mostramos el texto de éxito */
+                    pedido.mesa && (
+                      <span style={{ color: '#66e69d', fontWeight: 'bold', marginLeft: '18px' }}>
+                        Mesa liberada
+                      </span>
+                    )
                   )}
                 </div>
               )}

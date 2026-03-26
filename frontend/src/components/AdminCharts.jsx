@@ -41,7 +41,10 @@ export function BarsChart({ data, formatter }) {
                 className="bars-chart__fill"
                 style={{
                   width: `${percentage}%`,
-                  background: `linear-gradient(135deg, ${CHART_COLORS[index % CHART_COLORS.length]}, rgba(31, 41, 64, 0.92))`,
+                  background: `linear-gradient(-90deg, 
+                    ${CHART_COLORS[index % CHART_COLORS.length]} 0%, 
+                    rgba(11, 4, 51, 0) 100%), 
+                    ${CHART_COLORS[index % CHART_COLORS.length]}`, // Color base sólido debajo
                 }}
               />
             </div>
